@@ -9,197 +9,131 @@ public class Principal2 {
 
     public static void main(String[] args) {
         Scanner entrada = new Scanner(System.in);
-        Random random = new Random();
 
-        int valorAl = random.nextInt(100);
+        Armadura armG = new Armadura("Armadura de prata", 12, 4, 20);
+        Armadura armA = new Armadura("Armadura Acolchoada", 8, 2, 25);
+        Armadura armM = new Armadura("Cota de Talas", 12, 1, 12);
 
-        Armadura armG = new Armadura("Armadura de prata", 54, 52, 70);
-        Armadura armA = new Armadura("Armadura Acolchoada", 8, 25, 25);
-        Armadura armM = new Armadura("Cota de Talas", 52, 60, 45);
-
-        Arma maG = new Arma("Adaga", 54, 70);
+        Arma maG = new Arma("Adaga", 50, 70);
         Arma maA = new Arma("Arco", 58, 90);
         Arma maM = new Arma("Alabarda", 55, 50);
-
-
-        System.out.println("Vamos criar o Guerreiro");
-        System.out.print("Digite o nome do Guerreiro: ");
-        String nomeg = entrada.next();
-        Guerreiro g = new Guerreiro(nomeg,25, 50,20, 20, 5, 70, 100, 69, 70, 0);
-        g.setArmadura(armG);
-        g.setArma(maG);
 
         System.out.println("Vamos criar o Arqueiro");
         System.out.print("Digite o nome do Arqueiro: ");
         String nomea = entrada.next();
-        Arqueiro a = new Arqueiro(nomea,25, 50,20, 20, 5, 70, 100, 69, 70, 0);
+        Arqueiro a = new Arqueiro(nomea,6, 25,40, 20, 5, 10, 50, 20, 10, 0);
         a.setArmadura(armA);
         a.setArma(maA);
 
+        System.out.println("Vamos criar o Guerreiro");
+        System.out.print("Digite o nome do Guerreiro: ");
+        String nomeg = entrada.next();
+        Guerreiro g = new Guerreiro(nomeg,25, 10,0, 20, 5, 25, 50, 20, 10, 0);
+        g.setArmadura(armG);
+        g.setArma(maG);
 
         System.out.println("Vamos criar o mago");
         System.out.print("Digite o nome do Mago ");
         String nomem = entrada.next();
-        Mago m = new Mago(nomem,30, 40,85, 95, 50, 60, 100, 40, 54, 85);
+        Mago m = new Mago(nomem,25, 20,25, 45, 0, 40, 50, 10, 25, 45);
         m.setArmadura(armM);
         m.setArma(maM);
 
 
-        //Hora dos combates
-        Random dado = new Random();
+        //Lutas:
 
         int round  = 1;
+        Random dado = new Random();
 
-
-
-        while( (g.getVida() > 0 && a.getVida() > 0)|| (g.getVida() > 0 && m.getVida() > 0) || (a.getVida() > 0 && m.getVida() > 0)){
+        System.out.println("Para facilitar os combates na hora de atacar digite apenas a inicial do personagem, como por exemplo: mago = m");
+        while( (g.getVida() > 0 && a.getVida() > 0) ||(g.getVida() > 0 && m.getVida() > 0) || (a.getVida() > 0 && m.getVida() > 0)){
             System.out.println("Oponente 1: " + g.getNome());
             System.out.println("Oponente 2: " + a.getNome());
             System.out.println("Oponente 3: " + m.getNome());
 
+            //Primeiro Turno
             System.out.println("\nRound: " + round);
             System.out.println("Primeiro jogardor: Guerreiro");
-            System.out.println("Qual oponente deseja atacar: Arqueiro ou Mago");
-            String oponente = entrada.next();
+            System.out.println("Quem deseja atacar? M ou A ");
+            char oponente = entrada.next().charAt(0);
 
-            if (oponente == "Arqueiro" || oponente == "arqueiro") {
+            if (oponente == 'a') {
 
                 int valorDado = dado.nextInt(6);
                 System.out.println("Valor do dado: " + valorDado);
-                int valorAtaque = g.atacar(valorDado, armG.calculaDefesa(a.getResistencia()));
+                int valorAtaque = g.atacar(valorDado, a.getResistencia());
                 a.defender(valorAtaque);
+                round++;
 
-
-                valorDado = dado.nextInt(6);
-                System.out.println("Valor do dado: " + valorDado);
-                valorAtaque = g.atacar(valorDado, valorAtaque);
-                g.defender(valorAtaque);
-
-
-
-
-            } else if (oponente == "Mago" || oponente == "mago") {
+            } else if (oponente == 'm') {
 
                 int valorDado = dado.nextInt(6);
                 System.out.println("Valor do dado: " + valorDado);
-                int valorAtaque = g.atacar(valorDado, armG.calculaDefesa(m.getResistencia()));
+                int valorAtaque = g.atacar(valorDado, m.getResistencia());
                 m.defender(valorAtaque);
+                round++;
 
-
-                valorDado = dado.nextInt(6);
-                System.out.println("Valor do dado: " + valorDado);
-                valorAtaque = g.atacar(valorDado, valorAtaque);
-                g.defender(valorAtaque);
             }
 
             //Segundo turno
             System.out.println("\nRound: " + round);
             System.out.println("Segundo jogardor: Arqueiro");
-            System.out.println("Qual oponente deseja atacar. Guerreiro ou Mago");
-            oponente = entrada.next();
+            System.out.println("Quem deseja atacar? G ou M ");
+            oponente = entrada.next().charAt(0);
 
-            if (oponente == "Guerreiro" || oponente == "guerreiro") {
-
-
-
-
-
-
-
-
-
+            if (oponente == 'g') {
 
                 int valorDado = dado.nextInt(6);
                 System.out.println("Valor do dado: " + valorDado);
-                int valorAtaque = a.atacar(valorDado, armG.calculaDefesa(g.getResistencia()));
+                int valorAtaque = a.atacar(valorDado, g.getResistencia());
                 g.defender(valorAtaque);
+                round++;
 
-
-                valorDado = dado.nextInt(6);
-                System.out.println("Valor do dado: " + valorDado);
-                valorAtaque = a.atacar(valorDado, valorAtaque);
-                a.defender(valorAtaque);
-
-                if(m.getVida() <= 0){
-                    System.out.println(m.getNome() + " morreu!");
-                    m = new Mago();
-                }
-                if(g.getVida() <= 0){
-                    System.out.println(g.getNome() + " morreu!");
-                    g = new Guerreiro();
-                }
-                if(a.getVida() <= 0) {
-                    System.out.println(a.getNome() + " morreu!");
-                    a = new Arqueiro();
-                }
-
-            } else if (oponente == "Mago" || oponente == "mago") {
+            } else if (oponente == 'm') {
 
                 int valorDado = dado.nextInt(6);
                 System.out.println("Valor do dado: " + valorDado);
                 int valorAtaque = a.atacar(valorDado, m.getResistencia());
                 m.defender(valorAtaque);
-                if(m.getVida() <= 0){
-                    System.out.println(m.getNome() + " morreu!");
-                    m = new Mago();
-                }
-                if(g.getVida() <= 0){
-                    System.out.println(g.getNome() + " morreu!");
-                    g = new Guerreiro();
-                }
-                if(a.getVida() <= 0) {
-                    System.out.println(a.getNome() + " morreu!");
-                    a = new Arqueiro();
-                }
+                round++;
+
             }
 
             //Terceiro turno
             System.out.println("\nRound: " + round);
             System.out.println("Terceiro jogardor: Mago");
-            System.out.println("Qual oponente deseja atacar. Arqueiro ou Guerreiro");
-            oponente = entrada.next();
+            System.out.println("Quem deseja atacar? A ou G ");
+            oponente = entrada.next().charAt(0);
 
+            if (oponente == 'a') {
 
-            if (oponente == "Arqueiro" || oponente == "arqueiro") {
+                int valorDado = dado.nextInt(6);
+                System.out.println("Valor do dado: " + valorDado);
+                int valorAtaque = m.atacar(valorDado, a.getResistencia());
+                a.defender(valorAtaque);
+                round++;
 
+            } else if (oponente == 'g') {
 
-
-
-                if(m.getVida() <= 0){
-                    System.out.println(m.getNome() + " morreu!");
-                    m = new Mago();
-                }
-                if(g.getVida() <= 0){
-                    System.out.println(g.getNome() + " morreu!");
-                    g = new Guerreiro();
-                }
-                if(a.getVida() <= 0) {
-                    System.out.println(a.getNome() + " morreu!");
-                    a = new Arqueiro();
-                }
-            } else if (oponente == "Guerreiro" || oponente == "guerreiro") {
-                //code
                 int valorDado = dado.nextInt(6);
                 System.out.println("Valor do dado: " + valorDado);
                 int valorAtaque = m.atacar(valorDado, g.getResistencia());
                 g.defender(valorAtaque);
-                if(m.getVida() <= 0){
-                    System.out.println(m.getNome() + " morreu!");
-                    m = new Mago();
-                }
-                if(g.getVida() <= 0){
-                    System.out.println(g.getNome() + " morreu!");
-                    g = new Guerreiro();
-                }
-                if(a.getVida() <= 0) {
-                    System.out.println(a.getNome() + " morreu!");
-                    a = new Arqueiro();
-                }
-            }else{
-            System.out.println("Personagem invalido");
-            }
-            round++;
+                round++;
 
+            }
+            if(m.getVida() <= 0){
+                System.out.println(m.getNome() + " morreu!");
+                m = new Mago();
+            }
+            if(g.getVida() <= 0){
+                System.out.println(g.getNome() + " morreu!");
+                g = new Guerreiro();
+            }
+            if(a.getVida() <= 0) {
+                System.out.println(a.getNome() + " morreu!");
+                a = new Arqueiro();
+            }
         }
     }
 }
